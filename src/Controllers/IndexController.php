@@ -10,20 +10,19 @@ final class IndexController extends Controller{
         parent::__construct($request, $session);
     }
     public function index(){
-        if(Session::get('email') != null){
-            header('Location:'.BASE.'task');
-        }
         $db = $this->getDB();
-        $data = $db->selectAll('users');
-       
-        //uso de funciones declaradas en el modelo
-
-        //y definidas en la clase abstracta
-        //$stmt = $this->query($db,"SELECT * FROM users, null");
-        //$result = $this->row_extract();
-        $dataView = ['title' => 'home','data'=>$data];
+        $allCategories = $db->selectAll('Categories');
+        $posts = $db->selectAll('Post');
+        $subcategories = $db->selectWhere('Categories','CategoriaPadre','');
+        
+        $dataView = [
+            'title' => 'home',
+            'Posts' => $posts,
+            'categories' => $allCategories,
+            'subcategorias' => $subcategories
+        ];
         $this->render($dataView);
-        //si ponemos $this->render($dataview, 'home55') busca la plantilla home55
+   
     }
     
 }

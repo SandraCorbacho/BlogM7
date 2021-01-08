@@ -2,10 +2,10 @@
     "dbconf_dev":{
         "driver":"mysql",
         "dbhost":"localhost",
-        "dbuser":"sandra",
-        "dbname":"tablero",
+        "dbuser":"root",
+        "dbname":"Blog",
         "dbpass":"linuxlinux",
-        "web":"http://localhost:8080/",
+        "web":"http://localhost:8000/",
         "root":"/"
     },
     "dbconf_pro":{
