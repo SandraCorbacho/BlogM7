@@ -6,7 +6,7 @@
 <h1>Perfil</h1>
 
 
-
+No utilizada
 <?php
  
 include 'footer.tpl.php';
