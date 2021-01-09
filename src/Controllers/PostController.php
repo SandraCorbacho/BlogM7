@@ -20,14 +20,45 @@ final class PostController extends Controller implements View,ExPDO{
         $post = $db->selectPost('Post','id',$id);
         $subcategories = $db->selectWhereNot('Categories','CategoriaPadre','');
         $allCategories = $db->selectAll('Categories');
+        $comments = $db->selectWhere('Comment','idPost',$id,"id desc");
+        
         $dataView = [
             'title' => 'detail',
             'Post' => $post,
             'categories' => $allCategories,
             'subcategorias' => $subcategories,
-            'comments'  => null
+            'comments'  => $comments
         ];
         $this->render($dataView, 'detailPost');
     }
-
+    public function create(){
+        $db = $this->getDB();
+        $subcategories = $db->selectWhereNot('Categories','CategoriaPadre','');
+        
+        $dataView = [
+            'title' => 'create post',
+            'categories' => $subcategories,
+            
+           
+        ];
+        $this->render($dataView, 'createPost');
+    }
+    public function savePost(){
+        $db = $this->getDB();
+        $title = filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING);
+        $short_description = filter_input(INPUT_POST,'short_description',FILTER_SANITIZE_STRING);
+        $description = filter_input(INPUT_POST,'description',FILTER_SANITIZE_STRING);
+        $categoria = filter_input(INPUT_POST,'categoria',FILTER_SANITIZE_STRING);
+        $created =   $comments = $db->selectWhere('Users','email',Session::get('user'));
+        
+        $data = [
+            'title' => $title,
+            'short_description' => $short_description,
+            'description'  => $description,
+            'categoria'     => $categoria,
+            'create'    => $created[0]['id']
+        ];
+        $db->createPost($data);
+        header('Location:'.BASE);
+    }
 }

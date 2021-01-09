@@ -25,9 +25,7 @@
     </div>
     <div class="container-comments">
         <?php
-        if($comments == null ){
-            echo "No hay comentarios";
-        }
+        
         if(App\Session::get('user')== null || App\Session::get('user') == ''){
             echo "<p>Para poder hacer comentarios debes estar registrado</p>";
         }else{
@@ -38,6 +36,22 @@
             <textarea name='comment'></textarea>
                 <input type='hidden' value='".$Post[0] ["id"]."' name='idPost'>
             <input type='submit' value='comentar'> </form>";
+        }
+        if($comments == null ){
+            echo "No hay comentarios";
+        }else{
+            foreach($comments as $comment){
+                echo '
+                <div class="row">
+                    <div class="col-12">'.$comment['created'].'</div>
+                    <div class="col-12">'.$comment['title'].'</div>
+                    <div class="col-12">'.$comment['description'].'</div>
+                    <div class="col-12">'.$comment['created_at'].'</div>
+                
+                </div>
+                ';
+            }
+            
         }
         ?>
     </div>

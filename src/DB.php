@@ -67,15 +67,20 @@ class DB extends \PDO{
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $rows; 
     }
-    function selectWhere($table,$condition,$dato,array $fields=null):array{
+    function selectWhere($table,$condition,$dato,$order=null,array $fields=null):array{
 
         if(is_array($fields)){
             $columns = implode(',', $fields);
         }else{
             $columns = '*';
         }
-        $sql = "SELECT {$columns} FROM $table Where {$condition} = '$dato'";
+        if($order != null){
+            $sql = "SELECT {$columns} FROM $table Where {$condition} = '$dato' order by $order";
+        }else{
+            $sql = "SELECT {$columns} FROM $table Where {$condition} = '$dato'";
+        }
     
+        
         $stmt = self::$instance->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -340,6 +345,12 @@ class DB extends \PDO{
         
         $sql = "INSERT into Comment (title,description,created,created_at,update_at,idPost) values ('{$data['title']}','{$data['description']}','{$id[0]['id']}',NOW(),NOW(),{$data['idPost']});";
         
+        $stmt = self::$instance->prepare($sql);
+        $stmt->execute();
+        return true;
+    }
+    public function createPost(array $data){
+        $sql = "INSERT into Post (Title,Short_description,description,created,idCategorie) values ('{$data['title']}','{$data['short_description']}','{$data['description']}',{$data['create']},{$data['categoria']})";
         $stmt = self::$instance->prepare($sql);
         $stmt->execute();
         return true;

@@ -22,31 +22,37 @@
 <div class="row justify-content-between p-0 m-0">
 
     <?php 
-    
+        
         foreach($categories as $key => $categoria){
             if($categoria['CategoriaPadre'] == null){
-                echo "<div class='col-3 text-center'>
-                    <div class='menu' id='menu".$key."' >".$categoria['name']."</div>";
-                echo "<div class='submenu' id ='submenu".$key."'>";
+                echo "<div class='col text-center'>
+                
+                    <div class='menu col-12' id='menu".$key."' >".$categoria['name']."</div>";
+                
+                       
+                    echo "<div class='submenu col-12' id ='submenu".$key."'>";
             foreach($subcategorias as $subcategoria){
                 
                 if($subcategoria['CategoriaPadre'] == $categoria['id']){
                     echo "<a href='/categoria/detailCategoria/".$subcategoria['id']."'><p>".$subcategoria['name']."</p></a>";
                 }
             }
-            echo "</div>";
+                    echo "</div>";
             };
-            echo "</div>";
+            
+                echo "</div>";
         }
-        if(App\Session::get('user')== null || App\Session::get('user') == ''){
-            echo "<a href='/user'><div class='col-3 text-center'>Login</a></div>";
-            echo "<a href='/user/register'><div class='col-3 text-center'>Registro</a></div>";
-        }else{
-            echo "<a href='/logout'><div class='col-3 text-center'>Logout</div></a>";
-        }
-       
-               
-
+        echo '<div class="row justify-content-end container-login">';
+            if(App\Session::get('user')== null || App\Session::get('user') == ''){
+                echo "<div class='col-1 text-center'><a href='/user'>Login</a></div>";
+                echo "<div class='col-1 text-center'><a href='/user/register'>Registro</a></div>";
+            }else{
+                echo "<div class='col text-center'><a href='/perfil'>Perfil</a></div>";
+                echo "<div class='col text-center'><a href='/post/create'>Subir Post</a></div>";
+                echo "<div class='col text-center'><a href='/logout'>Logout</a></div>";
+            }
+        echo '</div>';
+        
     ?>
     </div>
 </nav>
