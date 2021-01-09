@@ -168,23 +168,17 @@ class DB extends \PDO{
         }
     }
     
-    function deleteTask($idTask){
+    function deletePost($id){
         
         try{
-         $sql = "DELETE FROM task_items WHERE taskeId = $idTask;";
+         $sql = "DELETE FROM Post WHERE id = $id;";
          $stmt = self::$instance->prepare($sql);
          $stmt->execute();
          }catch(PDOException $e){
            
                  return false;
          }
-         try{
-         $sql = "DELETE FROM tasks WHERE id = $idTask;";
-          $stmt = self::$instance->prepare($sql);
-         $stmt->execute();
-         }catch(PDOException $e){
-             return false;
-         }
+       
          return true;
      }
     function deleteSubtareaTask($idTask){
@@ -350,6 +344,7 @@ class DB extends \PDO{
         return true;
     }
     public function createPost(array $data){
+        
         $sql = "INSERT into Post (Title,Short_description,description,created,idCategorie) values ('{$data['title']}','{$data['short_description']}','{$data['description']}',{$data['create']},{$data['categoria']})";
         $stmt = self::$instance->prepare($sql);
         $stmt->execute();

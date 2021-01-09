@@ -44,6 +44,7 @@ final class PostController extends Controller implements View,ExPDO{
         $this->render($dataView, 'createPost');
     }
     public function savePost(){
+        
         $db = $this->getDB();
         $title = filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING);
         $short_description = filter_input(INPUT_POST,'short_description',FILTER_SANITIZE_STRING);
@@ -60,5 +61,14 @@ final class PostController extends Controller implements View,ExPDO{
         ];
         $db->createPost($data);
         header('Location:'.BASE);
+    }
+    public function delete(){
+        $db = $this->getDB();
+        $subcategories = $db->selectWhereNot('Categories','CategoriaPadre','');
+        $allCategories = $db->selectAll('Categories');
+        $id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_STRING);
+        $db->deletePost($id);
+
+        header('Location:'.BASE.'perfil');
     }
 }
