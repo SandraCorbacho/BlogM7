@@ -31,7 +31,13 @@
         if(App\Session::get('user')== null || App\Session::get('user') == ''){
             echo "<p>Para poder hacer comentarios debes estar registrado</p>";
         }else{
-            echo "<button> Comentar </button>";
+            
+            echo "
+            <form action='/comment/create' method='POST'>
+            <input type='text' name='title' placeholder='titulo'>
+            <textarea name='comment'></textarea>
+                <input type='hidden' value='".$Post[0] ["id"]."' name='idPost'>
+            <input type='submit' value='comentar'> </form>";
         }
         ?>
     </div>

@@ -331,4 +331,17 @@ class DB extends \PDO{
             return false;
            }
     }
+    public function createComment(array $data){
+        $sql = "SELECT id FROM Users where email = '{$data['user']}'";
+       
+        $stmt = self::$instance->prepare($sql);
+        $stmt->execute();
+        $id = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        $sql = "INSERT into Comment (title,description,created,created_at,update_at,idPost) values ('{$data['title']}','{$data['description']}','{$id[0]['id']}',NOW(),NOW(),{$data['idPost']});";
+        
+        $stmt = self::$instance->prepare($sql);
+        $stmt->execute();
+        return true;
+    }
 }
