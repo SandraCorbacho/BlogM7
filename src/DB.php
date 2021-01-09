@@ -52,7 +52,7 @@ class DB extends \PDO{
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $rows; 
     }
-    function selectWhere($table,$condition,$dato,array $fields=null):array{
+    function selectWhereNot($table,$condition,$dato,array $fields=null):array{
 
         if(is_array($fields)){
             $columns = implode(',', $fields);
@@ -60,6 +60,20 @@ class DB extends \PDO{
             $columns = '*';
         }
         $sql = "SELECT {$columns} FROM $table Where {$condition} != '$dato'";
+    
+        $stmt = self::$instance->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $rows; 
+    }
+    function selectWhere($table,$condition,$dato,array $fields=null):array{
+
+        if(is_array($fields)){
+            $columns = implode(',', $fields);
+        }else{
+            $columns = '*';
+        }
+        $sql = "SELECT {$columns} FROM $table Where {$condition} = '$dato'";
     
         $stmt = self::$instance->prepare($sql);
         $stmt->execute();

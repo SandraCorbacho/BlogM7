@@ -11,9 +11,9 @@ final class IndexController extends Controller{
     }
     public function index(){
         $db = $this->getDB();
-        $allCategories = $db->selectAll('Categories');
         $posts = $db->selectAll('Post');
-        $subcategories = $db->selectWhere('Categories','CategoriaPadre','');
+        $allCategories = $db->selectAll('Categories');
+        $subcategories = $db->selectWhereNot('Categories','CategoriaPadre','');
         
         $dataView = [
             'title' => 'home',
