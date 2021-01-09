@@ -17,7 +17,8 @@ class DB extends \PDO{
         parent::__construct(DSN,USR,PWD);
     }
     function registerUser($data){
-        $stmt =self::$instance->prepare("INSERT INTO users (email,name,subname,password,role) values ('{$data['email']}','{$data['name']}', '{$data['surname']}', '{$data['pass']}', {$data['role']});");
+        $sql = "INSERT INTO Users (name,idrole,email,password) values ('{$data['name']}',  {$data['role']},'{$data['email']}','{$data['pass']}');";
+        $stmt =self::$instance->prepare($sql);
     
         $stmt->execute();
         
@@ -98,7 +99,7 @@ class DB extends \PDO{
     function selectUser($mail,$password){
        
         try{   
-            $sql = 'SELECT * FROM users WHERE email="'. $mail.'" LIMIT 1';
+            $sql = 'SELECT * FROM Users WHERE email="'. $mail.'" LIMIT 1';
            
             $stmt = self::$instance->prepare($sql);
             $stmt->execute();
@@ -114,10 +115,7 @@ class DB extends \PDO{
                 $res=password_verify($password,$row[0]['password']);
                
                 if ($res){
-                   
-                    $_SESSION['name']=$row[0]['name'];
-                    $_SESSION['email']=$row[0]['email'];
-                   
+                                    
                     return true;
                 }else{
                     return false;
@@ -132,6 +130,7 @@ class DB extends \PDO{
     
     //definimos las funciones
     public function createUser(array $data){
+       
         if(!$this->existUser($data['email'])){
             
             $stmt = self::$instance->prepare("INSERT INTO users (email,name,subname,password,role) values ('{$data['email']}','{$data['name']}', '{$data['surname']}', '{$data['pass']}', {$data['role']});");
@@ -144,14 +143,14 @@ class DB extends \PDO{
        
         try{   
              
-            $stmt=self::$instance->prepare('SELECT * FROM users WHERE email=:email LIMIT 1');
+            $stmt=self::$instance->prepare('SELECT * FROM Users WHERE email=:email LIMIT 1');
             $stmt->execute([':email'=>$email]);
           
             $count=$stmt->rowCount();
             
             $row=$stmt->fetchAll(\PDO::FETCH_ASSOC);
             
-    
+           
             if($count==1){ 
                 $data = $row;
                 

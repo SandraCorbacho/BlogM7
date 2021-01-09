@@ -38,6 +38,12 @@
             };
             echo "</div>";
         }
+        if(App\Session::get('user')== null || App\Session::get('user') == ''){
+            echo "<a href='/user'><div class='col-3 text-center'>Login</a></div>";
+            echo "<a href='/user/register'><div class='col-3 text-center'>Registro</a></div>";
+        }else{
+            echo "<a href='/logout'><div class='col-3 text-center'>Logout</div></a>";
+        }
        
                
 

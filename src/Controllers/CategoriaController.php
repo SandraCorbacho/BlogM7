@@ -31,7 +31,7 @@ final class CategoriaController extends Controller implements View,ExPDO{
     ];
     $this->render($dataView);
    }
-  
+   
    
     
 }
