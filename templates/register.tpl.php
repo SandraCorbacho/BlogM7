@@ -1,5 +1,11 @@
+<?php
+
+if(App\Session::get('user')!= null || App\Session::get('user') != ''){
+    header('Location:'.BASE);
+}
+?>
 <?php include 'base.tpl.php'?>
-<script src="public/js/home.js"></script>
+
 
 <div class="container container-home">
 	<div class="row">
@@ -11,13 +17,14 @@
     <div class="row container-news">
      <p>Vista registro</p>
         <?php 
+       
         if(App\Session::get('loginMessage')!=null){
-            dd('eee');
+           
             echo App\Session::get('loginMessage');
         }
        
         ?>
-       <form action="/user/register" method='POST'>
+       <form action="<?=BASE?>user/register" method='POST'>
         <label>Correo electronico</label>
         <input type="email" name='correo' required>
         <label>Nombre</label>

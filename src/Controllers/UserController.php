@@ -42,7 +42,7 @@ class UserController extends Controller implements View,ExPDO{
            
       
         if(filter_input(INPUT_POST,'pass2')!= null){
-            
+           
             //die(filter_input(INPUT_POST,'pass2'));
             $data = [
                 'email'     => filter_input(INPUT_POST, 'correo'),
@@ -55,16 +55,17 @@ class UserController extends Controller implements View,ExPDO{
             if($exist){
                
                Session::set('loginMessage','Usuario ya existente en nuestra base de datos');
-               header('Location:'.BASE.'user/register');
+               
                 
                 
             }else{
                 
                 $register = $db->registerUser($data);
+               
                 if($register){
                     Session::set('user',filter_input(INPUT_POST, 'correo'));
                     Session::set('loginMessage','Usuario registrado con éxito');
-                    header('Location:'.BASE);
+                    
                 }
                 
             
