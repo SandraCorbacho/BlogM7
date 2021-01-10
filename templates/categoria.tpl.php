@@ -8,7 +8,7 @@
         </div>
         <div class="decoration-line"></div>
     </div>
-    <div class="row container-news">
+    <div class="row container-news justify-content-between">
         <?php 
         if($Posts != null){
             foreach($Posts as $post){

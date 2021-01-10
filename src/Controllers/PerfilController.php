@@ -12,6 +12,9 @@ use App\DB;
 final class PerfilController extends Controller implements View,ExPDO{
     
     public function index(){
+        if(Session::get('user') == null){
+            header('Location:'.BASE);
+        }
         $db = $this->getDB();
         $created =   $comments = $db->selectWhere('Users','email',Session::get('user'));
         $posts = $db->selectWhere('Post', 'created',$created[0]['id']);

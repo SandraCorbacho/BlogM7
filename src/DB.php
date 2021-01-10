@@ -181,61 +181,12 @@ class DB extends \PDO{
        
          return true;
      }
-    function deleteSubtareaTask($idTask){
-        
-        try{
-         $sql = "DELETE FROM task_items WHERE id = $idTask;";
-         $stmt = self::$instance->prepare($sql);
-         $stmt->execute();
-         }catch(PDOException $e){
-           
-                 return false;
-         }
-         try{
-         $sql = "DELETE FROM tasks WHERE id = $idTask;";
-          $stmt = self::$instance->prepare($sql);
-         $stmt->execute();
-         }catch(PDOException $e){
-             return false;
-         }
-         return true;
-     }
-     function selectWithoutJoin(string $email):array{
-        
-        $sql="SELECT * FROM users INNER JOIN tasks on users.id = tasks.user INNER JOIN task_items on tasks.id = task_items.taskeid WHERE users.email='$email' ORDER BY tasks.id;";
-       
-        $stmt = self::$instance->prepare($sql);
-        $stmt->execute();
-        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        return $rows; 
-    }
-    function getDataItems(string $email):array{
-        $count=0;
-        $sql = "SELECT tasks.id, tasks.description, tasks.user, tasks.start_date, tasks.finish_date FROM tasks INNER JOIN users on users.id = tasks.user where users.email = '$email'";
-        //die($sql);
-        $stmt = self::$instance->prepare($sql);
-        $stmt->execute();
-        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        $data=[];
-        foreach($rows as $key=>$task){
-            //var_dump($task['id']);
-           
-            $sql = "SELECT * FROM task_items WHERE taskeId={$task['id']}";
-            $stmt = self::$instance->prepare($sql);
-            $stmt->execute();
-            $rowsItems = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            
-            $data[$count] = ['task' => $task, 'task_items' =>$rowsItems];
-            $count++;
-            
-        }
-        
-       return $data;
-    }
-    function editTask($data){
+   
+    function update($data){
        
         try{
-            $sql = "UPDATE tasks SET itemName = '{$data['itemName']}',  start_date = '{$data['start_date']}', finish_date = ' {$data['finish_date']}' where tasks.id={$data['id']};";
+        $sql = "UPDATE Post SET Title = '{$data['title']}',Short_description = '{$data['short_description']}',description = '{$data['description']}',idCategorie = {$data['categoria']} where id= {$data['id']}";
+           
             $stmt = self::$instance->prepare($sql);
             $stmt->execute();
            
@@ -244,16 +195,7 @@ class DB extends \PDO{
             return $e;
         }
         
-        try{
-            
-            $sql = "UPDATE tasks SET description='{$data['itemName']}' where id={$data['id']};";
-            //die($sql);
-            $stmt = self::$instance->prepare($sql);
-            $stmt->execute();
-        }catch(PDOException $e){
-         
-            return $e;
-        }
+       
         return true;
        
     }
@@ -295,41 +237,8 @@ class DB extends \PDO{
         }
         return false;
     }
-    public function insertSubtarea($data){
-     
-           try{
-            $stmt = self::$instance->prepare("INSERT INTO task_items (taskeId,completed,itemName) values ({$data['idItem']},0,'{$data['itemName']}');");
-            $stmt->execute();
-            return true;
-           }  catch(ExceptionErr $e){
-            return false;
-           }
-        
-        
-    }
-    public function completeTask($id){
-        try{
-            $sql = "SELECT completed FROM task_items WHERE id = $id LIMIT 1";
-            $stmt = self::$instance->prepare($sql);
-            $stmt->execute();
-            $completed = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-           
-            if($completed[0]["completed"]){
-                $completed = "false";
-            }else{
-                $completed = "true";
-            }
-           
-            $sql = "UPDATE task_items set completed = $completed where id = $id";
-            
-            $stmt = self::$instance->prepare($sql);
-            $stmt->execute();
-
-            return true;
-           }  catch(ExceptionErr $e){
-            return false;
-           }
-    }
+    
+    
     public function createComment(array $data){
         $sql = "SELECT id FROM Users where email = '{$data['user']}'";
        

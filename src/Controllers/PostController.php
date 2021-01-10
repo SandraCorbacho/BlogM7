@@ -71,4 +71,37 @@ final class PostController extends Controller implements View,ExPDO{
 
         header('Location:'.BASE.'perfil');
     }
+    public function edit(){
+        $db = $this->getDB();
+        $subcategories = $db->selectWhereNot('Categories','CategoriaPadre','');
+        $id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_STRING);
+        $post =  $db->selectWhere('Post','id',$id);
+        
+        $dataView = [
+            'title' => 'create post',
+            'categories' => $subcategories,
+            'post'  => $post
+           
+        ];
+        $this->render($dataView, 'editPost');
+    }
+    public function updatePost(){
+        $db = $this->getDB();
+        $title = filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING);
+        $short_description = filter_input(INPUT_POST,'short_description',FILTER_SANITIZE_STRING);
+        $description = filter_input(INPUT_POST,'description',FILTER_SANITIZE_STRING);
+        $categoria = filter_input(INPUT_POST,'categoria',FILTER_SANITIZE_STRING);
+        $created =   $comments = $db->selectWhere('Users','email',Session::get('user'));
+        $id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_STRING);
+        $data = [
+            'title' => $title,
+            'id'    => $id,
+            'short_description' => $short_description,
+            'description'  => $description,
+            'categoria'     => $categoria,
+            'create'    => $created[0]['id']
+        ];
+        $db->update($data);
+        header('Location:'.BASE. 'perfil');
+    }
 }

@@ -25,24 +25,32 @@
                     </div>
                 </a>
             </div>
-            <div id="delete" class="col-6 btn btn-danger">Eliminar</div>
-            <div class="col-6 btn btn-info">Modificar</div>
+            <div class="delete col-6 btn btn-danger" id="'.$post['id'].'">Eliminar</div>
+            <div class="edit col-6 btn btn-info" id="'.$post['id'].'">Modificar</div>
             </div>
-            </div>';
-
+            </div>
+            
+                <form class="d-none" action="/post/delete" method="POST" id="delete-form'.$post['id'].'">
+                    <input type="hidden" name="id" value='.$post['id'].'>
+                </form>
+        
+        
+            <form class="d-none" action="/post/edit" method="POST" id="edit-form'.$post['id'].'">
+                <input type="hidden" name="id" value='.$post['id'].'>
+            </form>';            
         }
-        ?>
-        <div>
-            <form action="/post/delete" method='POST' id='delete-form'>
-                <input type="hidden" name='id' value='<?=$post['id']?>'>
-            </form>
-        </div>
+     ?>  
     </div>
 </div>
 
 <?php include 'footer.tpl.php'?>
 <script>
-    $('#delete').click(function(){
-        $('#delete-form').submit();
+    $('.delete').click(function(){
+        let id = $(this).attr('id');
+        $('#delete-form'+id).submit();
+    })
+    $('.edit').click(function(){
+        let id = $(this).attr('id');
+        $('#edit-form'+id).submit();
     })
 </script>
