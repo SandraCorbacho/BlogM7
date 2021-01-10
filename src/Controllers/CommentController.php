@@ -16,6 +16,7 @@ final class CommentController extends Controller implements View,ExPDO{
         $title = filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING);
         $idPost = filter_input(INPUT_POST,'idPost',FILTER_SANITIZE_STRING);
         $comment = filter_input(INPUT_POST,'comment',FILTER_SANITIZE_STRING);
+       
         $data = [
             'title' => $title,
             'user' => Session::get('user'),
@@ -23,8 +24,10 @@ final class CommentController extends Controller implements View,ExPDO{
             'description'=> $comment,
             
         ];
+        
         $db = $this->getDB();
         $db->createComment($data);
+        
         header('Location:'.BASE.'post/detail/'.$idPost);
     }
 }

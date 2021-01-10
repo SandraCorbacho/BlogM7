@@ -79,7 +79,7 @@ class DB extends \PDO{
         }else{
             $sql = "SELECT {$columns} FROM $table Where {$condition} = '$dato'";
         }
-    
+        
         
         $stmt = self::$instance->prepare($sql);
         $stmt->execute();
@@ -88,13 +88,8 @@ class DB extends \PDO{
     }
     function selectPost($table,$condition,$dato,array $fields=null):array{
 
-        if(is_array($fields)){
-            $columns = implode(',', $fields);
-        }else{
-            $columns = '*';
-        }
-        $sql = "SELECT {$columns} FROM $table INNER JOIN Users on $table.created= Users.id Where $table.{$condition} = $dato LIMIT 1";
-       
+        
+        $sql = "SELECT Post.id,Post.Title,Post.Short_description,Post.description,Post.created,Post.idCategorie,Users.name,Users.idrole,Users.email,Users.password FROM $table INNER JOIN Users on $table.created= Users.id Where $table.{$condition} = $dato LIMIT 1";
         $stmt = self::$instance->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -115,7 +110,7 @@ class DB extends \PDO{
             
             if($count==1){
                 
-            //die('eee');
+            
                 
                 $res=password_verify($password,$row[0]['password']);
                
@@ -245,7 +240,6 @@ class DB extends \PDO{
         $stmt = self::$instance->prepare($sql);
         $stmt->execute();
         $id = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        
         $sql = "INSERT into Comment (title,description,created,created_at,update_at,idPost) values ('{$data['title']}','{$data['description']}','{$id[0]['id']}',NOW(),NOW(),{$data['idPost']});";
         
         $stmt = self::$instance->prepare($sql);

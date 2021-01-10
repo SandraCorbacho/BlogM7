@@ -12,9 +12,9 @@
         "driver":"mysql",
         "dbhost":"cosa.cesnuria.com",
         "dbuser":"CoSa_sandra",
-        "dbname":"CoSa_tablero",
-        "dbpass":"7kdew1Hn8y",
-        "web":"/tableroUF2/",
-        "root":"/tableroUF2/"
+        "dbname":"CoSa_Blog",
+        "dbpass":"vlx6K9Lzm3",
+        "web":"/BlogM7/",
+        "root":"/BlogM7/"
     }
 }

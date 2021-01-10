@@ -9,7 +9,7 @@
         <div class="decoration-line"></div>
     </div>
     <div class="row container-news">
-        <form action="/post/updatePost" method='POST'>
+        <form action="<?=BASE?>post/updatePost" method='POST'>
         <input type="hidden" name='id' value='<?= $post[0]['id'] ?>'>
         <div class="form-group">
             <label for="exampleFormControlInput1">Titulo</label>

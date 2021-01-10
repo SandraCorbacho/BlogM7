@@ -1,5 +1,5 @@
 <?php include 'base.tpl.php'?>
-<script src="public/js/home.js"></script>
+<script src="<?=BASE?>public/js/home.js"></script>
 
 <div class="container container-home">
 	<div class="row">
@@ -9,7 +9,7 @@
         <div class="decoration-line"></div>
     </div>
     <div class="row container-news">
-        <form action="/post/savePost" method='POST'>
+        <form action="<?=BASE?>post/savePost" method='POST'>
         <div class="form-group">
             <label for="exampleFormControlInput1">Titulo</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" name='title' placeholder="titulo para el post">

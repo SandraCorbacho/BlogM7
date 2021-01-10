@@ -15,7 +15,7 @@
 
         }
         ?>
-       <form action="/user/login" method='POST'>
+       <form action="<?=BASE?>user/login" method='POST'>
         <label>Correo electronico</label>
         <input type="email" name='correo'>
         <label>Password</label>

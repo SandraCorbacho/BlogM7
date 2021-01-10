@@ -10,7 +10,8 @@
     </div>
     <div class="row container-news">
         <div class="col-12">
-            <h1><?=$Post[0]['Title']?></h1>
+      
+            <h1 class='title-stn'><?=$Post[0]['Title']?></h1>
         </div>
         <div class="col-12">
             <?=$Post[0] ["Short_description"]?>
@@ -31,11 +32,19 @@
         }else{
             
             echo "
-            <form action='/comment/create' method='POST'>
-            <input type='text' name='title' placeholder='titulo'>
+            <form action='".BASE."comment/create' method='POST'>
+            <div class='form-group'>
+                <input type='text' name='title' placeholder='titulo'>
+            </div>
+            <div class='form-group'>
             <textarea name='comment'></textarea>
-                <input type='hidden' value='".$Post[0] ["id"]."' name='idPost'>
-            <input type='submit' value='comentar'> </form>";
+            </div>
+            <div class='form-group'>
+            <input type='hidden' value='".$Post[0]["id"]."' name='idPost'>
+            <input type='submit' value='comentar'> 
+            </div>
+            </form>";
+
         }
         if($comments == null ){
             echo "No hay comentarios";
@@ -49,6 +58,7 @@
                     <div class="col-12">'.$comment['created_at'].'</div>
                 
                 </div>
+                <hr>
                 ';
             }
             

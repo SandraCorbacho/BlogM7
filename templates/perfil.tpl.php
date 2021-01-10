@@ -7,10 +7,10 @@
 	<div class="row">
         <div class="col-12">
         <h1 class='text-center'>Perfil</h1>
-        <hr>
+        <div class="decoration-line"></div>
         <h3>Tus Aportaciones al Blog:</h3>
         </div>
-        <div class="decoration-line"></div>
+        <hr>
     </div>
     <div class="row container-news">
         <?php 
@@ -18,7 +18,7 @@
             echo '<div class="col-3 container-new">
             <div class="row">
             <div class="col-12">
-                <a href = "/post/detail/'.$post['id'].'"><div class="row">
+                <a href = "'.BASE.'post/detail/'.$post['id'].'"><div class="row">
                         <div class="col-12"><h3 class="text-center">'.$post['Title'].'</h3></div>
                         <div class="col-12">'.$post['Short_description'].'</div>
                         <div class="col-12">Leer más</div>
@@ -30,12 +30,12 @@
             </div>
             </div>
             
-                <form class="d-none" action="/post/delete" method="POST" id="delete-form'.$post['id'].'">
+                <form class="d-none" action="'.BASE.'post/delete" method="POST" id="delete-form'.$post['id'].'">
                     <input type="hidden" name="id" value='.$post['id'].'>
                 </form>
         
         
-            <form class="d-none" action="/post/edit" method="POST" id="edit-form'.$post['id'].'">
+            <form class="d-none" action="'.BASE.'post/edit" method="POST" id="edit-form'.$post['id'].'">
                 <input type="hidden" name="id" value='.$post['id'].'>
             </form>';            
         }
