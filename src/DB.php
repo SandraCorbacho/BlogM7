@@ -48,9 +48,11 @@ class DB extends \PDO{
             $columns = '*';
         }
         $sql = "SELECT {$columns} FROM $table";
+       
         $stmt = self::$instance->prepare($sql);
         $stmt->execute();
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      
         return $rows; 
     }
     function selectWhereNot($table,$condition,$dato,array $fields=null):array{
@@ -163,10 +165,10 @@ class DB extends \PDO{
         }
     }
     
-    function deletePost($id){
+    function delete($table,$condition,$id){
         
         try{
-         $sql = "DELETE FROM Post WHERE id = $id;";
+         $sql = "DELETE FROM $table WHERE $condition = $id;";
          $stmt = self::$instance->prepare($sql);
          $stmt->execute();
          }catch(PDOException $e){

@@ -65,6 +65,9 @@ class UserController extends Controller implements View,ExPDO{
                 if($register){
                     Session::set('user',filter_input(INPUT_POST, 'correo'));
                     Session::set('loginMessage','Usuario registrado con éxito');
+                    $user = $db->selectWhere('Users','email',filter_input(INPUT_POST, 'correo'));
+                    Session::set('user',filter_input(INPUT_POST, 'correo'));
+                    Session::set('userRole',$user[0]['idrole']);
                     
                 }
                 
@@ -84,7 +87,10 @@ class UserController extends Controller implements View,ExPDO{
             $pass = filter_input(INPUT_POST, 'pass', FILTER_SANITIZE_STRING);
             if(DB::selectUser($email,$pass)){
                 Session::delete('loginMessage');
+                $user = $db->selectWhere('Users','email',filter_input(INPUT_POST, 'correo'));
+               
                 Session::set('user',$email);
+                Session::set('userRole',$user[0]['idrole']);
                 header('Location:'.BASE);
             }else{
                 Session::set('loginMessage','Contraseña o Usuario incorrecto');

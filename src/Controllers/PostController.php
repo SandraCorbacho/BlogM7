@@ -67,7 +67,7 @@ final class PostController extends Controller implements View,ExPDO{
         $subcategories = $db->selectWhereNot('Categories','CategoriaPadre','');
         $allCategories = $db->selectAll('Categories');
         $id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_STRING);
-        $db->deletePost($id);
+        $db->delete('Post','id',$id);
 
         header('Location:'.BASE.'perfil');
     }

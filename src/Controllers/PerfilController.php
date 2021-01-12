@@ -16,8 +16,16 @@ final class PerfilController extends Controller implements View,ExPDO{
             header('Location:'.BASE);
         }
         $db = $this->getDB();
-        $created =   $comments = $db->selectWhere('Users','email',Session::get('user'));
-        $posts = $db->selectWhere('Post', 'created',$created[0]['id']);
+        $comments = '';
+        $created =  $db->selectWhere('Users','email',Session::get('user'));
+        if(Session::get('userRole')==1){
+            $posts = $db->selectAll('Post');
+            $comments = $db->selectAll('Comment');
+            
+        }else if($created[0]['id'] != null){
+            $posts = $db->selectWhere('Post', 'created',$created[0]['id']);
+        }
+        
         $allCategories = $db->selectAll('Categories');
         $subcategories = $db->selectWhereNot('Categories','CategoriaPadre','');
         
@@ -25,7 +33,8 @@ final class PerfilController extends Controller implements View,ExPDO{
             'title' => 'perfil',
             'Posts' => $posts,
             'categories' => $allCategories,
-            'subcategorias' => $subcategories
+            'subcategorias' => $subcategories,
+            'comments'  => $comments
         ];
         $this->render($dataView, 'perfil');
     }

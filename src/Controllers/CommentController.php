@@ -30,4 +30,14 @@ final class CommentController extends Controller implements View,ExPDO{
         
         header('Location:'.BASE.'post/detail/'.$idPost);
     }
+    public function delete(){
+        
+        $db = $this->getDB();
+        $subcategories = $db->selectWhereNot('Categories','CategoriaPadre','');
+        $allCategories = $db->selectAll('Categories');
+        $id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_STRING);
+        $db->delete('Comment', 'id',$id);
+
+        header('Location:'.BASE.'perfil');
+    }
 }
